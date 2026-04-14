@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f5f7;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1d1d1f;
+        }
+
+        .header p {
+            color: #86868b;
+            margin-top: 0.3rem;
+        }
+
+        /* Filter & Search */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            background: #e8e8ed;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #1d1d1f;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: #1d1d1f;
+            color: white;
+        }
+
+        .search-box input {
+            padding: 0.4rem 1rem;
+            border: 1px solid #d2d2d6;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            width: 200px;
+            outline: none;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-preview {
+            height: 130px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            color: #1d1d1f;
+        }
+
+        .card-desc {
+            font-size: 0.75rem;
+            color: #86868b;
+            margin-bottom: 0.6rem;
+            line-height: 1.4;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: #86868b;
+            border-top: 1px solid #e8e8ed;
+            padding-top: 0.6rem;
+        }
+
+        .badge {
+            background: #e8e8ed;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.65rem;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 3rem;
+            color: #86868b;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            color: #86868b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 Template Library</h1>
+            <p>Koleksi template website siap pakai</p>
+        </div>
+
+        <div class="toolbar">
+            <div class="filter-group" id="filterGroup">
+                <button class="filter-btn active" data-cat="all">Semua</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Cari template...">
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+        <div class="footer">
+            <span id="totalCount">0</span> template tersedia
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // 🔥 DAFTAR TEMPLATE - MUDAH DITAMBAH!
+        // ============================================================
+        // CUKUP COPY-PASTE blok di bawah ini, ganti isinya, selesai!
+        // ============================================================
+
+        const templates = [
+            // PORTOFOLIO
+            { name: "Portofolio v1", folder: "portfolio/v1", category: "portofolio", desc: "Minimalis & elegan", icon: "🎨" },
+            { name: "Portofolio v2", folder: "portfolio/v2", category: "portofolio", desc: "Kreatif & modern", icon: "✨" },
+            { name: "Portofolio v3", folder: "portfolio/v3", category: "portofolio", desc: "Profesional", icon: "💼" },
+
+            // LANDING PAGE
+            { name: "Landing Product", folder: "landing/product", category: "landing", desc: "Promosi produk", icon: "🚀" },
+            { name: "Landing App", folder: "landing/app", category: "landing", desc: "Promosi aplikasi", icon: "📱" },
+            { name: "Landing Event", folder: "landing/event", category: "landing", desc: "Seminar & workshop", icon: "🎪" },
+
+            // COMPANY PROFILE
+            { name: "Company Corporate", folder: "company/corporate", category: "company", desc: "Perusahaan besar", icon: "🏢" },
+            { name: "Company Modern", folder: "company/modern", category: "company", desc: "Startup & bisnis", icon: "🏭" },
+            { name: "Company Kreatif", folder: "company/kreatif", category: "company", desc: "Agensi & studio", icon: "🎯" },
+
+            // TOKO ONLINE
+            { name: "Toko Fashion", folder: "toko/fashion", category: "toko", desc: "Baju & aksesoris", icon: "👕" },
+            { name: "Toko Elektronik", folder: "toko/elektronik", category: "toko", desc: "Gadget & alat", icon: "📱" },
+            { name: "Toko Makanan", folder: "toko/makanan", category: "toko", desc: "Kuliner & snack", icon: "🍕" },
+
+            // BLOG
+            { name: "Blog Personal", folder: "blog/personal", category: "blog", desc: "Catatan harian", icon: "📝" },
+            { name: "Blog Tech", folder: "blog/tech", category: "blog", desc: "Coding & teknologi", icon: "💻" },
+            { name: "Blog Travel", folder: "blog/travel", category: "blog", desc: "Wisata & liburan", icon: "✈️" },
+
+            // SISTEM INFORMASI
+            { name: "Sistem Sekolah", folder: "sistem/sekolah", category: "sistem", desc: "Manajemen sekolah", icon: "📚" },
+            { name: "Sistem Perpus", folder: "sistem/perpus", category: "sistem", desc: "Perpustakaan", icon: "📖" },
+            { name: "Sistem Klinik", folder: "sistem/klinik", category: "sistem", desc: "Klinik kesehatan", icon: "🏥" },
+            { name: "Sistem Inventory", folder: "sistem/inventory", category: "sistem", desc: "Stok barang", icon: "📦" },
+
+            // 👇 TAMBAHKAN TEMPLATE BARU DI SINI (copy-paste baris di bawah)
+            // { name: "Nama Template", folder: "nama/folder", category: "kategori", desc: "Deskripsi", icon: "🎯" },
+        ];
+
+        // ========== JANGAN UBAH KODE DI BAWAH INI ==========
+        
+        // Mapping kategori ke nama tampilan
+        const categoryNames = {
+            'portofolio': '🎨 Portofolio',
+            'landing': '🚀 Landing Page',
+            'company': '🏢 Company Profile',
+            'toko': '🛒 Toko Online',
+            'blog': '📝 Blog',
+            'sistem': '📊 Sistem Informasi'
+        };
+
+        // Ambil semua kategori unik
+        const categories = ['all', ...new Set(templates.map(t => t.category))];
+
+        // Render filter button
+        const filterGroup = document.getElementById('filterGroup');
+        categories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn' + (cat === 'all' ? ' active' : '');
+            btn.setAttribute('data-cat', cat);
+            btn.textContent = cat === 'all' ? 'Semua' : (categoryNames[cat] || cat);
+            filterGroup.appendChild(btn);
+        });
+
+        // State
+        let activeCategory = 'all';
+        let searchQuery = '';
+
+        // Fungsi render
+        function render() {
+            let filtered = templates;
+            
+            // Filter kategori
+            if (activeCategory !== 'all') {
+                filtered = filtered.filter(t => t.category === activeCategory);
+            }
+            
+            // Filter pencarian
+            if (searchQuery) {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(t => 
+                    t.name.toLowerCase().includes(q) || 
+                    t.desc.toLowerCase().includes(q)
+                );
+            }
+            
+            // Update counter
+            document.getElementById('totalCount').textContent = filtered.length;
+            
+            // Render grid
+            const grid = document.getElementById('grid');
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty">😕 Tidak ada template ditemukan</div>';
+                return;
+            }
+            
+            // Base URL untuk link
+            const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '');
+            
+            grid.innerHTML = filtered.map(t => `
+                <a href="${baseUrl}${baseUrl.endsWith('/') ? '' : '/'}${t.folder}/" target="_blank" class="card">
+                    <div class="card-preview" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <div>${t.icon}</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">${t.name}</div>
+                        <div class="card-desc">${t.desc}</div>
+                        <div class="card-meta">
+                            <span class="badge">${categoryNames[t.category] || t.category}</span>
+                            <span>🔗 →</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Event listeners
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-cat');
+                render();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            render();
+        });
+
+        // Render awal
+        render();
+    </script>
+</body>
+</html>
